@@ -104,4 +104,4 @@ python leaderboard/builder.py
 
 ## Built by
 
-[@nandanadileep](https://twitter.com/nandanadileep)
+[@nandanadileep](https://twitter.com/nandana_dileep)

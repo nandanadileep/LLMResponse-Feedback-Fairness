@@ -1,0 +1,20 @@
+Explain the difference between supervised and unsupervised learning with examples.
+Write a Python function to check if a string is a palindrome.
+What are the main causes of the French Revolution?
+Summarize the key concepts of quantum entanglement for a general audience.
+Write a SQL query to find the top 5 customers by revenue in the last 30 days.
+Explain how HTTPS works and why it matters for security.
+What is the traveling salesman problem and why is it hard to solve?
+Write a regex to validate an email address.
+Explain gradient descent in simple terms.
+What are the trade-offs between REST and GraphQL APIs?
+How does a transformer architecture work in large language models?
+Write a bash script to find all files modified in the last 24 hours.
+Explain the CAP theorem and its implications for distributed systems.
+What is the difference between TCP and UDP?
+Describe how memory management works in Python.
+Write a function to implement binary search in JavaScript.
+What is prompt injection and how can it be mitigated?
+Explain the difference between a mutex and a semaphore.
+How do neural networks learn? Explain backpropagation simply.
+What are embeddings and how are they used in NLP?

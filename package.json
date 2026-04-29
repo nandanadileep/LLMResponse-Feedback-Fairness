@@ -1,0 +1,16 @@
+{
+  "name": "shadow-arena",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "CDP-level analysis of Chatbot Arena vote quality",
+  "scripts": {
+    "capture": "bash collector/capture_battle.sh",
+    "extract": "python extractor/extract_battle.py",
+    "leaderboard": "python leaderboard/builder.py",
+    "sync": "bash deploy/sync.sh",
+    "export": "python exporter/to_huggingface.py"
+  },
+  "dependencies": {
+    "@browserbasehq/browse-cli": "alpha"
+  }
+}

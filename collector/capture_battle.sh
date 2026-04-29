@@ -20,7 +20,7 @@ browse wait load
 sleep 2
 
 # Pick a prompt
-PROMPT=$(shuf -n 1 prompts.txt)
+PROMPT=$(python3 -c "import random,sys; lines=[l.strip() for l in open('prompts.txt') if l.strip()]; print(random.choice(lines))")
 echo "Prompt: $PROMPT"
 
 # Type into the chat input and submit
@@ -31,7 +31,20 @@ browse press Enter
 
 # Wait for battle page and both responses to appear
 browse wait load
-browse wait selector "button:has-text('A is better')" --timeout 45000
+# Poll for vote buttons (appear only after both responses finish generating)
+for i in $(seq 1 30); do
+  sleep 2
+  BUTTONS=$(browse snapshot 2>/dev/null | python3 -c "
+import sys,json
+try:
+    d=json.load(sys.stdin)
+    print('found' if 'A is better' in d.get('tree','') else 'waiting')
+except:
+    print('waiting')
+")
+  echo "[$i] Vote buttons: $BUTTONS"
+  [ "$BUTTONS" = "found" ] && break
+done
 
 # Random delay simulating real reading (8-45 seconds)
 DELAY=$((RANDOM % 37 + 8))
@@ -39,7 +52,7 @@ echo "Reading for ${DELAY}s..."
 sleep $DELAY
 
 # Cast vote: always A in test runs (randomise later)
-browse click "button:has-text('A is better')"
+browse eval "Array.from(document.querySelectorAll('button')).find(b => b.textContent.includes('A is better'))?.click()"
 echo "Voted: A is better"
 
 sleep 1
@@ -52,4 +65,4 @@ echo "=== Capture complete: .o11y/battle-$BATTLE_ID/ ==="
 echo "$BATTLE_ID" > /tmp/last_battle_id
 
 # Extract battle data
-python extractor/extract_battle.py battle-$BATTLE_ID "$PROMPT"
+python3 extractor/extract_battle.py battle-$BATTLE_ID "$PROMPT"

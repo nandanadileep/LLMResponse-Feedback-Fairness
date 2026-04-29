@@ -15,27 +15,34 @@ sleep 1
 
 # Drive Arena
 browse env local 9222
-browse open "https://lmsys.org/chat"
-browse wait-for-navigation
+browse open "https://arena.ai"
+browse wait load
 sleep 2
 
 # Pick a prompt
 PROMPT=$(shuf -n 1 prompts.txt)
 echo "Prompt: $PROMPT"
 
-browse fill "[data-testid='chat-input']" "$PROMPT"
-browse click "[data-testid='send-button']"
-browse wait-for-selector ".response-a" --timeout 30000
-browse wait-for-selector ".response-b" --timeout 30000
+# Type into the chat input and submit
+browse click "textarea[placeholder='Ask anything…']" || browse click @0-12
+browse type "$PROMPT"
+sleep 0.5
+browse press Enter
+
+# Wait for battle page and both responses to appear
+browse wait load
+browse wait selector "button:has-text('A is better')" --timeout 45000
 
 # Random delay simulating real reading (8-45 seconds)
 DELAY=$((RANDOM % 37 + 8))
 echo "Reading for ${DELAY}s..."
 sleep $DELAY
 
-# Cast vote
-browse click "[data-testid='vote-a']"
-echo "Voted A"
+# Cast vote: always A in test runs (randomise later)
+browse click "button:has-text('A is better')"
+echo "Voted: A is better"
+
+sleep 1
 
 # Stop tracer and bisect
 node scripts/stop-capture.mjs battle-$BATTLE_ID
